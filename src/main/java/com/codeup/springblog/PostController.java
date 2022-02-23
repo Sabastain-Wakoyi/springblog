@@ -12,14 +12,14 @@ public class PostController{
     @GetMapping("/posts")
     @ResponseBody
     public String viewPost(){
-        return "posts index page";
+        return "post/index";
     }
 
 
     @GetMapping("/posts/{id}")
     @ResponseBody
     public String postDetails(@PathVariable long id){
-        return "view individual post";
+        return "post/show";
 
     }
 
