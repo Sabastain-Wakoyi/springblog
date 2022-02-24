@@ -18,9 +18,9 @@ public class RollDiceController {
         int random = (int) Math.ceil(Math.random() * 6);
 
         if (random == guess) {
-            message = "You guessed the random number!";
+            message = "You guessed the right random number!";
         } else {
-            message = "Sorry, please try again";
+            message = "Sorry, your guess was wrong,  please try again";
         }
         model.addAttribute("message", message);
         model.addAttribute("guess", guess);
