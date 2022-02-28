@@ -13,11 +13,17 @@ public class Post  {
     @Column(nullable = false, columnDefinition = "Text")
     private String body;
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = 150)
     private String title;
 
 
     public Post() {
+
+    }
+
+    public Post(String title, String body) {
+        this.title = title;
+        this.body = body;
 
     }
 
