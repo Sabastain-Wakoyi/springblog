@@ -5,14 +5,17 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import repositories.UserRepository;
 
-public class UserController {
+import java.util.Properties;
+
+public class UserController{
     private UserRepository users;
-    private PasswordEncoder passwordEncoder;
 
-    public UserController(UserRepository users, PasswordEncoder passwordEncoder){
+
+    public UserController(UserRepository users){
         this.users = users;
-        this.passwordEncoder = passwordEncoder;
+
     }
 
     @GetMapping("/sign-up")
@@ -23,9 +26,7 @@ public class UserController {
 
     @PostMapping("/sign-up")
     public String saveUser(@ModelAttribute User user){
-        String hash = passwordEncoder.encode(user.getPassword());
-        user.setPassword(hash);
-        users.save(user);
         return "redirect:/login";
     }
+
 }
