@@ -64,7 +64,7 @@ import java.util.List;
 public class PostController {
     private PostRepository postsDao;
 
-    public <postsDao> PostController(PostRepository postsDao) {
+    public <postsDao> PostController(@SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection") PostRepository postsDao) {
         this.postsDao = postsDao;
     }
 
