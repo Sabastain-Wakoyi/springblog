@@ -35,6 +35,10 @@ public class Post  {
 
     }
 
+    public Post(int i, String codeup, String s) {
+
+    }
+
     public String getTitle() {
         return title;
     }
