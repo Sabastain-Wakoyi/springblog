@@ -55,6 +55,7 @@ package com.codeup.springblog.controllers;
 
 import com.codeup.springblog.models.Post;
 //import com.codeup.springblog.repositories.PostRepository;
+import com.codeup.springblog.services.EmailService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -68,10 +69,12 @@ import java.util.List;
 public class PostController {
     private PostRepository postsDao;
     private UserRepository userDao;
+    private EmailService emailService;
 
-    public <postsDao> PostController(@SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection") PostRepository postsDao, @SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection") UserRepository userDao) {
+    public <postsDao> PostController(@SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection") PostRepository postsDao, @SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection") UserRepository userDao, EmailService emailService) {
         this.postsDao = postsDao;
         this.userDao = userDao;
+        this.emailService = emailService;
     }
 
     @GetMapping("/posts")
