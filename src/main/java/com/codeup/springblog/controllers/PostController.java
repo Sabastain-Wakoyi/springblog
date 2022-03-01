@@ -59,6 +59,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import repositories.PostRepository;
+import repositories.UserRepository;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -66,9 +67,11 @@ import java.util.List;
 @Controller
 public class PostController {
     private PostRepository postsDao;
+    private UserRepository userDao;
 
-    public <postsDao> PostController(@SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection") PostRepository postsDao) {
+    public <postsDao> PostController(@SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection") PostRepository postsDao, UserRepository userDao) {
         this.postsDao = postsDao;
+        this.userDao = userDao;
     }
 
     @GetMapping("/posts")
@@ -105,6 +108,7 @@ public class PostController {
     @PostMapping("/posts/create")
     public String submitCreateForm(@RequestParam(name = "title") String title, @RequestParam(name = "body") String body) {
         Post newPost = new Post(title, body);
+        newPost.setUser(userDao.getById(1L));
         postsDao.save(newPost);
 
         return "redirect:/posts";
