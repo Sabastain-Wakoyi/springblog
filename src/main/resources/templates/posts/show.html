@@ -1,6 +1,6 @@
 <!--<!DOCTYPE html>-->
 <!--<html xmlns:th="http://www.thymeleaf.org"-->
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<!--      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">-->
 
 <!--<head>-->
 <!--    <meta charset="UTF-8">-->
@@ -29,28 +29,53 @@
 <!--</html>-->
 
 
-<!DOCTYPE html>
+<!DOCTYPE  html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="partials :: head">
     <meta charset="UTF-8">
     <title>View All Posts</title>
 </head>
 <body>
-<nav th:replace="partials:: navbar"></nav>
+<nav th:replace="partials :: navbar"></nav>
 <div class="container mt-5">
     <div class="d-flex">
 
     </div>
     <div class="container header-container">
-        <h2 class="main header-container">Activities</h2>
+        <h2 class="main-header">Activity</h2>
         <div class="date"></div>
     </div>
     <div class="container post-container">
-
+        <div th:each="user: ${user}">
+            <div class="post-margin" th:each="posts: ${posts}">
+                <a th:href="@{'/posts/index/' + ${posts.getId()}}">
+                    <h5 th:text="${posts.getTitle()}"></h5>
+                </a>
+                <p class="body" th:text="${posts.getBody()}"></p>
+                <div class="d-flex">
+                    <div class="dropdown">
+                        <button class="btn icon dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="bi bi-gear-fill"></i>
+                        </button>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <form class="form-bg" th:action="@{'/posts/edit/' + ${posts.getId()}}" method="get">
+                                <button type="submit" class="btn">Edit</button>
+                            </form>
+                            <form class="form-bg" th:action="@{'/delete-by-id/' + ${posts.getId()}}" method="post">
+                                <button class="btn" type="submit">Delete</button>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="d-flex author ml-auto">
+                        <span>-</span><p class="ml-1" th:text="${user.getEmail()}"></p>
+                    </div>
+                </div>
+                <hr>
+            </div>
+        </div>
     </div>
 </div>
 
-
-
+<div th:replace="partials :: scripts"></div>
 </body>
 </html>
