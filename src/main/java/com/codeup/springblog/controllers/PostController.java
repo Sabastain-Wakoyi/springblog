@@ -69,7 +69,7 @@ public class PostController {
     private PostRepository postsDao;
     private UserRepository userDao;
 
-    public <postsDao> PostController(@SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection") PostRepository postsDao, UserRepository userDao) {
+    public <postsDao> PostController(@SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection") PostRepository postsDao, @SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection") UserRepository userDao) {
         this.postsDao = postsDao;
         this.userDao = userDao;
     }
