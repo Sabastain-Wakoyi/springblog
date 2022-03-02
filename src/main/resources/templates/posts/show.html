@@ -1,81 +1,19 @@
-<!--<!DOCTYPE html>-->
-<!--<html xmlns:th="http://www.thymeleaf.org"-->
-<!--      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">-->
-
-<!--<head>-->
-<!--    <meta charset="UTF-8">-->
-<!--    <title>Viewing Post</title>-->
-<!--</head>-->
-<!--<body>-->
-<!--<h1 th:text="${post.title}"></h1>-->
-<!--<p th:text="${post.body}"></p>-->
-<!--<a th:href="'mailto:'+${post.user.email}"><span th:text="${post.user.email}"></span> </a>-->
-<!--<br>-->
-<!--<div sec:authorize="isAuthenticated()">-->
-<!--    <div th:if="userName== post.user.username">-->
-<!--        <a th:href="@{|/posts/${post.id}/edit|}"><button>Edit Post</button></a>-->
-<!--    </div>-->
-<!--</div>-->
-
-<!--<div sec:authorize="isAuthenticated()">-->
-<!--    This content is only shown to authenticated users.-->
-
-<!--    User ID: <span th:text="${#authentication.principal.id}"/>-->
-<!--    Username: <span th:text="${#authentication.principal.username}"/>-->
-<!--    Email: <span th:text="${#authentication.principal.email}"/>-->
-<!--</div>-->
-
-<!--</body>-->
-<!--</html>-->
-
-
-<!DOCTYPE  html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="partials :: head">
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
     <meta charset="UTF-8">
-    <title>View Posts</title>
+    <title>Single Post</title>
+    <th:block th:include="partials/bootstrap :: styling"></th:block>
 </head>
 <body>
-<nav th:replace="partials :: navbar"></nav>
-<div class="container mt-5">
-    <div class="d-flex">
-
+<nav th:replace="partials/navbar :: navbar"></nav>
+<div class="card" style="width: 18rem;">
+    <div class="card-body">
+        <h5 class="card-title" th:text="${singlePost.getTitle()}">Card title</h5>
+        <p class="card-text" th:text="${singlePost.getBody()}">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
     </div>
-    <div class="container header-container">
-        <h2 class="main-header">Activities</h2>
-        <div class="date"></div>
-    </div>
-    <div class="container post-container">
-        <div th:each="user: ${user}">
-            <div class="post-margin" th:each="posts: ${posts}">
-                <a th:href="@{'/posts/index/' + ${posts.getId()}}">
-                    <h5 th:text="${posts.getTitle()}"></h5>
-                </a>
-                <p class="body" th:text="${posts.getBody()}"></p>
-                <div class="d-flex">
-                    <div class="dropdown">
-                        <button class="btn icon dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <i class="bi bi-gear-fill"></i>
-                        </button>
-                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                            <form class="form-bg" th:action="@{'/posts/edit/' + ${posts.getId()}}" method="get">
-                                <button type="submit" class="btn">Edit</button>
-                            </form>
-                            <form class="form-bg" th:action="@{'/delete-by-id/' + ${posts.getId()}}" method="post">
-                                <button class="btn" type="submit">Delete</button>
-                            </form>
-                        </div>
-                    </div>
-                    <div class="d-flex author ml-auto">
-                        <span>-</span><p class="ml-1" th:text="${user.getEmail()}"></p>
-                    </div>
-                </div>
-                <hr>
-            </div>
-        </div>
-    </div>
+    <h5>You can email this user at: <span th:text="${singlePost.getUser().getEmail()}"></span></h5>
 </div>
-
-<div th:replace="partials :: scripts"></div>
+<th:block th:include="partials/bootstrap :: scripts"></th:block>
 </body>
 </html>

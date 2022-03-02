@@ -7,9 +7,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import repositories.AuthorRepository;
-import repositories.BookRepository;
-import repositories.GenreRepository;
+import com.codeup.springblog.repositories.AuthorRepository;
+import com.codeup.springblog.repositories.BookRepository;
+import com.codeup.springblog.repositories.GenreRepository;
 
 @Controller
 public class BookController {

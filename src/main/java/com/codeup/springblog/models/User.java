@@ -8,6 +8,8 @@ import java.util.List;
 @Entity
 @Table(name = "users")
 public class User {
+    public Long getId;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
@@ -22,11 +24,29 @@ public class User {
     @Column(nullable = false, length = 100)
     private String password;
 
+
+
+    public User(String username, String email, String password, List<Post> posts) {
+        this.username = username;
+        this.email = email;
+        this.password = password;
+        this.posts = posts;
+    }
+
+    public User(long id, String username, String email, String password, List<Post> posts) {
+        this.id = id;
+        this.username = username;
+        this.email = email;
+        this.password = password;
+        this.posts = posts;
+    }
+
    public User(User copy){
-       id = copy.id;
+       id = copy.id;//This line is super important, many things will not work if it's absent
        email = copy.email;
        username = copy.username;
        password = copy.password;
+       posts = copy.posts;
 
    }
 

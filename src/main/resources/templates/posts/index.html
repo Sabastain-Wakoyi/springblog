@@ -1,50 +1,16 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="en">
-<head th:replace="partials/head :: head('All Posts')"></head>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <th:block th:include="partials/bootstrap :: styling"></th:block>
+</head>
 <body>
-<div class="wrapper">
-    <nav th:replace="partials/navbar :: navbar"></nav>
-    <header class="container my-5">
-        <div class="jumbotron">
-            <h1 class="text-center display-1">Posts</h1>
-        </div>
-    </header>
-    <main class="container">
-        <div th:each="post : ${posts}">
-            <a th:href="@{|/posts/${post.id}|}"><h1 th:text="${post.title}"></h1></a>
-            <p th:text="${post.body}"></p>
-            <a th:href="'mailto:'+${post.user.email}"><span th:text="${post.user.email}"></span> </a>
-            <br>
-            <a th:href="@{|/posts/${post.id}/edit|}"><button>Edit Post</button></a>
-            <form th:action="@{|/posts/${post.id}/delete|}" th:method="POST" style="display:inline">
-                <button>Delete Post</button>
-            </form>
-            <hr>
-        </div>
-    </main>
+<nav th:replace="partials/navbar :: navbar"></nav>
+<div class="card-body" th:each="post : ${allPosts}">
+    <h5 class="card-title" th:text="${post.getTitle()}">Card title</h5>
+    <p class="card-text" th:text="${post.getBody()}">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
 </div>
-<th:block th:replace="partials/scripts :: scripts" />
+<th:block th:include="partials/bootstrap :: scripts"></th:block>
 </body>
 </html>
-
-
-
-
-
-<!--html<!DOCTYPE html>-->
-<!--<html lang="en" xmlns:th="http://www.thymeleaf.org">-->
-<!--<head th:replace="partials/head :: head('Spring Blog | All Posts')">-->
-<!--    <meta charset="UTF-8">-->
-<!--    <title>Title</title>-->
-<!--</head>-->
-<!--<body>-->
-<!--<nav th:replace="partials/navbar :: navbar"></nav>-->
-
-<!--<h2>Viewing All Posts</h2>-->
-
-<!--<div th:each="post : ${posts}">-->
-<!--    <h3 th:text="${post.title}">Title</h3>-->
-<!--    <div th:text="${post.body}"></div>-->
-<!--</div>-->
-<!--</body>-->
-<!--</html>-->

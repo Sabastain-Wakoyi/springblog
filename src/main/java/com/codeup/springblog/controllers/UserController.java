@@ -5,9 +5,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import repositories.UserRepository;
-
-import java.util.Properties;
+import com.codeup.springblog.repositories.UserRepository;
 
 public class UserController{
     private UserRepository users;

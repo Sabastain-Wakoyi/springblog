@@ -1,4 +1,4 @@
-//package com.codeup.springblog.controllers;
+package com.codeup.springblog.controllers;
 //
 //
 //import com.codeup.springblog.models.Post;
@@ -51,27 +51,29 @@
 
 
 
-package com.codeup.springblog.controllers;
 
 import com.codeup.springblog.models.Post;
 //import com.codeup.springblog.repositories.PostRepository;
+import com.codeup.springblog.models.User;
 import com.codeup.springblog.services.EmailService;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import repositories.PostRepository;
-import repositories.UserRepository;
+import com.codeup.springblog.repositories.PostRepository;
+import com.codeup.springblog.repositories.UserRepository;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Controller
 public class PostController {
-    private PostRepository postsDao;
+   private PostRepository postsDao;
     private UserRepository userDao;
     private EmailService emailService;
 
-    public <postsDao> PostController(@SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection") PostRepository postsDao, @SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection") UserRepository userDao, EmailService emailService) {
+
+    public PostController(PostRepository postsDao, UserRepository userDao, EmailService emailService) {
         this.postsDao = postsDao;
         this.userDao = userDao;
         this.emailService = emailService;
@@ -121,8 +123,13 @@ public class PostController {
     @GetMapping("/posts/{id}/edit")
     public String showEditForm(@PathVariable long id, Model model) {
         Post posttoEdit = postsDao.getById(id);
-        model.addAttribute("postToEdit", posttoEdit);
-        return "posts/edit";
+        User logInUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if(posttoEdit.getUser().getId() == logInUser.getId) {
+            model.addAttribute("postToEdit", posttoEdit);
+            return "posts/edit";
+        } else {
+            return "redirect:/posts";
+        }
     }
     // We can access the values submitted from the form using our @RequestParam annotation
     @PostMapping("/posts/{id}/edit")
