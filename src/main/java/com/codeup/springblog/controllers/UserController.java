@@ -1,6 +1,7 @@
 package com.codeup.springblog.controllers;
 
 import org.apache.tomcat.jni.User;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -9,11 +10,11 @@ import com.codeup.springblog.repositories.UserRepository;
 
 public class UserController{
     private UserRepository users;
+    private PasswordEncoder passwordEncoder;
 
-
-    public UserController(UserRepository users){
+    public UserController(UserRepository users,PasswordEncoder passwordEncoder){
         this.users = users;
-
+        this.passwordEncoder = passwordEncoder;
     }
 
     @GetMapping("/sign-up")
@@ -24,6 +25,9 @@ public class UserController{
 
     @PostMapping("/sign-up")
     public String saveUser(@ModelAttribute User user){
+        String hash = passwordEncoder.encode(user.getPassword());
+        user.setPassword(hash);
+        userDao.save(user);
         return "redirect:/login";
     }
 
