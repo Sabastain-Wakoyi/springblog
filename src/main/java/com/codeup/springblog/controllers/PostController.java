@@ -112,6 +112,7 @@ public class PostController {
     public String submitCreateForm(@RequestParam(name = "title") String title, @RequestParam(name = "body") String body) {
         Post newPost = new Post(title, body);
         newPost.setUser(userDao.getById(1L));
+        emailService.prepareAndSend(newPost,"Create new post","you have created an email");
         postsDao.save(newPost);
 
         return "redirect:/posts";
