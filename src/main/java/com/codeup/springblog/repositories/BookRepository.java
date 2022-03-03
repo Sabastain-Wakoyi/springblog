@@ -11,7 +11,10 @@ import java.util.List;
 
 public interface BookRepository extends JpaRepository<Book, Long> {
     User findByUserName(String testUser);
+
+    //Book findBookByTitle(String testBook);
     // Will return a SINGLE book with the matching title.
+    Book findBookByTitle(String title);
 //    Book findBookByTitle();
 //
 //
