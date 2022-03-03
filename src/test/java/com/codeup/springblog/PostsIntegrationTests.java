@@ -89,12 +89,14 @@ public class PostsIntegrationTests {
         this.mvc.perform(
                         post("/posts/create").with(csrf())
                                 .session((MockHttpSession) httpSession)
-                                // Add all the required parameters to your request like this
+                                // param name is genres, can enter comma separated string to point to multiple values.
+                                //included title and body test
                                 .param("title", "test post")
-                                .param("body", "test post body go here!"))
+                                .param("body", "test body of the post"))
                 .andExpect(status().is3xxRedirection());
     }
 
+    //read
     @Test
     public void testShowPost() throws Exception {
 
@@ -111,20 +113,18 @@ public class PostsIntegrationTests {
     public void testPostsIndex() throws Exception {
         Post existingPost = postRepo.findAll().get(0);
 
-        // Makes a Get request to /posts and verifies that we get some of the static text of the posts/index.html template and at least the title from the first Post is present in the template.
         this.mvc.perform(get("/posts"))
                 .andExpect(status().isOk())
-                // Test the static content of the page
+                // checking static content of the page.
                 .andExpect(content().string(containsString("All Posts")))
-                // Test the dynamic content of the page
+                // checking dynamic content of the page.
                 .andExpect(content().string(containsString(existingPost.getTitle())));
     }
 
+    //UPDATE
     @Test
     public void testEditPost() throws Exception {
-        // Gets the first Post for tests purposes
         Post existingPost = postRepo.findAll().get(0);
-
         String editTitle  = "edited title";
         String editBody   = "edited body";
 
@@ -146,15 +146,13 @@ public class PostsIntegrationTests {
 
     @Test
     public void testDeletePost() throws Exception {
-        // Creates a test Post to be deleted
+        // TEST POST TO BE DELETED
         this.mvc.perform(
                         post("/posts/create").with(csrf())
                                 .session((MockHttpSession) httpSession)
                                 .param("title", "post to be deleted")
                                 .param("body", "doomed post walking"))
                 .andExpect(status().is3xxRedirection());
-
-        // Get the recent Post that matches the title
         Post existingPost = postRepo.findByTitle("post to be deleted");
 
         // Makes a Post request to /posts/{id}/delete and expect a redirection to the Ads index
