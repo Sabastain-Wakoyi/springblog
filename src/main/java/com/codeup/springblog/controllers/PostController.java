@@ -1,6 +1,5 @@
 package com.codeup.springblog.controllers;
-//
-//
+
 //import com.codeup.springblog.models.Post;
 //import org.springframework.stereotype.Controller;
 //import org.springframework.web.bind.annotation.GetMapping;
@@ -113,7 +112,8 @@ public class PostController {
     @PostMapping("/posts/create")
     public String submitCreateForm(@RequestParam(name = "title") String title, @RequestParam(name = "body") String body) {
         Post newPost = new Post(title, body);
-        newPost.setUser(userDao.getById(1L));
+       // newPost.setUser(userDao.getById(1L));
+        newPost.setUser((User) SecurityContextHolder.getContext().getAuthentication().getPrincipal());// from the curriculum
         emailService.prepareAndSend(newPost,"Create new post","you have created an email");
         postsDao.save(newPost);
 
@@ -123,6 +123,7 @@ public class PostController {
     @GetMapping("/posts/{id}/edit")
     public String showEditForm(@PathVariable long id, Model model) {
         Post posttoEdit = postsDao.getById(id);
+        posttoEdit.setUser((User) SecurityContextHolder.getContext().getAuthentication().getPrincipal());// from the curriculum
         User logInUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         if(posttoEdit.getUser().getId() == logInUser.getId) {
             model.addAttribute("postToEdit", posttoEdit);
@@ -156,14 +157,17 @@ public class PostController {
 }
 
 
- // Instructor's own solution
 
-//
+//instructor's own solution
+
 //package com.codeup.regulusspringblog.controllers;
 //
 //        import com.codeup.regulusspringblog.models.Post;
+//        import com.codeup.regulusspringblog.models.User;
 //        import com.codeup.regulusspringblog.repositories.PostRepository;
 //        import com.codeup.regulusspringblog.repositories.UserRepository;
+//        import com.codeup.regulusspringblog.services.EmailService;
+//        import org.springframework.security.core.context.SecurityContextHolder;
 //        import org.springframework.stereotype.Controller;
 //        import org.springframework.ui.Model;
 //        import org.springframework.web.bind.annotation.*;
@@ -175,10 +179,12 @@ public class PostController {
 //public class PostController {
 //    private PostRepository postsDao;
 //    private UserRepository usersDao;
+//    private EmailService emailService;
 //
-//    public PostController(PostRepository postsDao, UserRepository usersDao) {
+//    public PostController(PostRepository postsDao, UserRepository usersDao, EmailService emailService) {
 //        this.postsDao = postsDao;
 //        this.usersDao = usersDao;
+//        this.emailService = emailService;
 //    }
 //
 //    @GetMapping("/posts")
@@ -205,8 +211,8 @@ public class PostController {
 //
 //    @PostMapping("/posts/create")
 //    public String submitCreateForm(@ModelAttribute Post newPost) {
-//        //Post newPost = new Post(title, body);
-//        newPost.setUser(usersDao.getById(1L));
+//        newPost.setUser((User) SecurityContextHolder.getContext().getAuthentication().getPrincipal());
+//        emailService.prepareAndSend(newPost, "New post created", "You had posted to our blog!");
 //        postsDao.save(newPost);
 //
 //        return "redirect:/posts";
@@ -215,21 +221,30 @@ public class PostController {
 //    @GetMapping("/posts/{id}/edit")
 //    public String showEditForm(@PathVariable long id, Model model) {
 //        Post posttoEdit = postsDao.getById(id);
-//        model.addAttribute("postToEdit", posttoEdit);
-//        return "posts/edit";
+//        User loggedInUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+//        if (posttoEdit.getUser().getId() == loggedInUser.getId()) {
+//            model.addAttribute("postToEdit", posttoEdit);
+//            return "posts/edit";
+//        } else {
+//            return "redirect:/posts";
+//        }
 //    }
 //    // We can access the values submitted from the form using our @RequestParam annotation
 //    @PostMapping("/posts/{id}/edit")
 //    public String submitEdit(@ModelAttribute Post postToEdit, @PathVariable long id) {
-//
-//        // grab the post from our DAO
+//        if (postsDao.getById(id).getUser().getId() == ((User) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getId()) {
+//            postToEdit.setUser((User) SecurityContextHolder.getContext().getAuthentication().getPrincipal());
+//            // grab the post from our DAO
 ////    Post postToEdit = postsDao.getById(id);
-//        // use setters to set new values to the object
+//            // use setters to set new values to the object
 ////    postToEdit.setTitle(title);
 ////    postToEdit.setBody(body);
-//        // save the object with new values
-//        postsDao.save(postToEdit);
+//            // save the object with new values
+//            postsDao.save(postToEdit);
+//        }
+//
 //        return "redirect:/posts";
+//
 //    }
 //
 //    // For now, we need to use a GetMapping, that way, when we visit the page,
