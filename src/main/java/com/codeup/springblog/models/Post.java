@@ -84,4 +84,10 @@ public class Post  {
         this.user = users;
     }
 
+    public void setPost(User user) {
+    }
+
+    public Book getPost() {
+        return null;
+    }
 }

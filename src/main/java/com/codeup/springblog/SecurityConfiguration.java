@@ -1,7 +1,7 @@
 package com.codeup.springblog;
 
 
-//import com.codeup.regulusspringblog.services.UserDetailsLoader;
+import com.codeup.springblog.services.UserDetailsLoader;
 import com.codeup.springblog.services.UserDetailsLoader;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -57,7 +57,10 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                         "/posts/create", // only authenticated users can create posts
                         "/posts/{id}/edit", // only authenticated users can edit posts
                         "/posts/{id}",
+                        "/posts/{id:^\\d+$}/edit", // only authenticated users can edit posts
+                        "/posts/{id:^\\d+$}/delete",// only authenticated users can delete posts
                         "books/create"
+
                 )
                 .authenticated()
         ;
