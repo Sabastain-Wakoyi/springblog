@@ -95,4 +95,13 @@ public class User {
     public void setPosts(List<Post> posts) {
         this.posts = posts;
     }
+
+    public void SetUsername(User testUser) {
+    }
+
+    public void SetPassword(User testUser) {
+    }
+
+    public void SetEmail(String s) {
+    }
 }
