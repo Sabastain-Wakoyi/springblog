@@ -99,12 +99,14 @@ public class PostController {
     public String postDetails(@PathVariable long id, Model model) {
         Post p1 = new Post(1, "Regulus Spring", "Hello, we are currently learning views in Spring!");
         model.addAttribute("singlePost", p1);
+
         return "posts/show";
     }
 
 
     @GetMapping("/posts/create")
     public String showCreateForm() {
+
         return "posts/create";
     }
 
