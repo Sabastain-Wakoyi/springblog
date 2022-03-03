@@ -1,0 +1,70 @@
+package com.codeup.springblog;
+
+import com.codeup.springblog.models.User;
+import com.codeup.springblog.repositories.PostRepository;
+import com.codeup.springblog.repositories.UserRepository;
+import org.junit.Before;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.HttpStatus;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.ResultMatcher;
+
+import javax.servlet.http.HttpSession;
+
+@RunWith(SpringRunner.class)
+@SpringBootTest(classes = SpringblogApplication.class)
+@AutoConfigureMockMvc
+public class PostsIntegrationTests {
+    private User testUser;
+    private HttpSession httpSession;
+
+    @Autowired
+    private MockMvc mvc;
+
+    @Autowired
+    UserRepository userRepo;
+
+    @Autowired
+    PostRepository postRepo;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
+    @Before
+    public void setup() throws Exception{
+        testUser = userRepo.findByUsername("testUser");
+
+        // Creates the test user if not exists
+        if (testUser == null) {
+            User newUser = new User();
+            newUser.setUsername("testUser");
+            newUser.setPassword(passwordEncoder.encode("pass"));
+            newUser.setEmail("testUser@codeup.com");
+            testUser = userRepo.save(newUser);
+        }
+
+        httpSession = this.mvc.perform(post("/login").with(csrf())
+                        .param("username", "testUser")
+                        .param("password", "pass"))
+                .andExpect(status().is(HttpStatus.FOUND.value()))
+                .andExpect(redirectedUrl("/posts"))
+                .andReturn()
+                .getRequest()
+                .getSession();
+    }
+
+    private com.intellij.testFramework.TestModeFlags status() {
+    }
+
+    private ResultMatcher redirectedUrl(String s) {
+    }
+
+}
+
+}
+
