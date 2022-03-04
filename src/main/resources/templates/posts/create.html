@@ -16,6 +16,7 @@
     <div class="form-group">
         <label for="body">Body</label>
         <textarea class="form-control" id="body" rows="3" name="body" th:field="*{body}"></textarea>
+        <input type="hidden" th:field="*{user}" id="user">
     </div>
     <button type="submit">Submit</button>
 </form>

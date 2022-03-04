@@ -71,7 +71,22 @@ public class EmailService {
        }
     }
 
-    public void prepareAndSend(String testing, String did_this_work) {
+    public void prepareAndSend(String subject, String body) {
+        SimpleMailMessage msg = new SimpleMailMessage();
+        msg.setFrom(from);
+        msg.setTo("hope@user.com");
+        msg.setSubject(subject);
+        msg.setText(body);
+
+        try {
+            this.mailSender.send(msg);
+        }
+        catch (MailException ex){
+            // simply log it and go on...
+            System.err.println(ex.getMessage());
+        }
+    }
+
 
     }
-}
+
