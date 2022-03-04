@@ -7,10 +7,10 @@ import javax.persistence.*;
 public class Post  {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", nullable = false)
+//    @Column(name = "id", nullable = false)
     private Long id;
 
-    @Column(nullable = false, columnDefinition = "Text")
+    @Column(nullable = false)
     private String body;
 
     @Column(nullable = false, length = 150)
@@ -20,36 +20,29 @@ public class Post  {
     @JoinColumn(name = "user_id")
     private User user;
 
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
 
 
     public Post() {
 
     }
 
-    public Post(String title, String body) {
+    public Post(String title, String body , User user) {
         this.title = title;
         this.body = body;
+        this.user = user;
 
     }
 
 
-    public Post(String title, String body, long id) {
+    public Post(long id, String title, String body, User user) {
         this.id = id;
         this.title = title;
         this.body = body;
+        this.user =user;
 
     }
 
-    public Post(int i, String codeup, String s) {
 
-    }
 
     public String getTitle() {
         return title;
@@ -75,19 +68,22 @@ public class Post  {
         this.id = id;
     }
 
-    public User getUsers() {
-        User users = null;
-        return users;
+    public User getUser() {
+
+        return this.user;
     }
 
-    public void setUsers(User users) {
-        this.user = users;
+    public void setUser(User user) {
+
+        this.user = user;
     }
 
     public void setPost(User user) {
     }
 
-    public Book getPost() {
-        return null;
+
+
+    public User getPost() {
+        return this.getPost();
     }
 }

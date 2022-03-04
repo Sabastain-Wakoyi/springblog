@@ -56,13 +56,28 @@ public class PostController {
     public String postsEditForm(@PathVariable long id, Model model) {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         Post post = postRepo.getById(id);
-        if (user.getId() == post.getPost().getId()) {
+     if (user.getId() == post.getPost().getId()) {
             model.addAttribute("post", post);
             return "posts/edit";
         } else {
-            return "posts/";
+            return "redirect:posts/";
         }
-    }
+
+ }
+
+//    @GetMapping("posts/{id}/edit")
+// public String showEdit(@PathVariable long id, Model model) {
+//    Post postEdit = postsDao.getById(id);
+//    User loggedInUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+//    if (postEdit.getUser().getId() == loggedInUser.getId()) {
+//        model.addAttribute("postEdit", postEdit);
+//        return "posts/edit";
+//    }else {
+//        return "redirect:/posts";
+//    }
+
+
+//
 
     @PostMapping("/posts/{id}/edit")
     public String postsEditSubmit(@PathVariable long id, @ModelAttribute Post post) {

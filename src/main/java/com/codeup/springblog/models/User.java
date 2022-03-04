@@ -8,23 +8,25 @@ import java.util.List;
 @Entity
 @Table(name = "users")
 public class User {
-    public Long getId;
+    //public Long getId;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", nullable = false)
     private Long id;
 
-    @Column(nullable = false, length = 20)
+    @Column(nullable = false, length = 150, unique = true)
     private String username;
 
-    @Column(nullable = false, length = 20)
+    @Column(nullable = false, length = 150, unique = true)
     private String email;
 
     @Column(nullable = false, length = 100)
     private String password;
 
+ @OneToMany(cascade = CascadeType.ALL,mappedBy = "user")
+ private List<Post> posts;
 
+ public User(){ }
 
     public User(String username, String email, String password, List<Post> posts) {
         this.username = username;
@@ -50,26 +52,23 @@ public class User {
 
    }
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
-    private List<Post> posts;
-
-    public User() {
-
-    }
 
     public Long getId() {
-        return id;
+
+     return id;
     }
 
     public void setId(Long id) {
-        this.id = id;
+
+     this.id = id;
     }
     public String getUsername() {
         return username;
     }
 
     public void setUsername(String username) {
-        this.username = username;
+
+     this.username = username;
     }
 
     public String getEmail() {
@@ -96,12 +95,12 @@ public class User {
         this.posts = posts;
     }
 
-    public void SetUsername(User testUser) {
-    }
-
-    public void SetPassword(User testUser) {
-    }
-
-    public void SetEmail(String s) {
-    }
+//    public void SetUsername(User testUser) {
+//    }
+//
+//    public void SetPassword(User testUser) {
+//    }
+//
+//    public void SetEmail(String s) {
+//    }
 }
