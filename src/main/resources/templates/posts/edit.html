@@ -7,17 +7,16 @@
 </head>
 <body>
 <nav th:replace="partials/navbar :: navbar"></nav>
-<!--Thymeleaf action syntax-->
-<form th:action="@{/posts/{id}/edit (id = ${postToEdit.getId()})}" th:method="POST" th:object="${postToEdit}">
+<form th:action="@{/posts/{id}/edit (id = ${post.getId()})}" th:method="POST" th:object="${post}">
     <div class="form-group">
         <label for="title">Title</label>
-        <input type="text" class="form-control" id="title" name="title" th:value="${postToEdit.getTitle()}" th:fields="*{title}">
+        <input type="text" class="form-control" id="title" name="title" th:value="${post.getTitle()}" th:fields="*{title}">
     </div>
-    <input type="hidden" th:value="${postToEdit.getId()}" th:field="*{id}">
+    <input type="hidden" th:value="${post.getId()}" th:field="*{id}">
     <div class="form-group">
         <label for="body">Body</label>
         <!--Textarea elements do not have a value attribute, so we will represent the body using the th:text-->
-        <textarea class="form-control" id="body" rows="3" name="body" th:text="${postToEdit.getBody()}" th:field="*{body}"></textarea>
+        <textarea class="form-control" id="body" rows="3" name="body" th:text="${post.getBody()}" th:field="*{body}"></textarea>
     </div>
     <button type="submit">Submit</button>
 </form>
